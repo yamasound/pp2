@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Weather Forecast</title>
+    <style>
+     #day {
+       list-style-position: inside;
+       float: left;
+       width: 30%;
+       height: 100%;
+       margin: 3px;
+       background: lightgray;
+       text-align: center;
+     }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h2>{{ title }}</h2>
+      
+      {% for i in items %}
+      <div id="day">
+        <h3>{{ i.date }}, {{ i.dateLabel }}</h3>
+        <p>
+          {{ i.telop }}<br>
+          <img src="{{ i.image_url }}">
+        </p>
+        <p>
+            気温
+            <font color="red">{{ i.temperature_max_celsius }}℃</font>
+            <font color="blue">{{ i.temperature_min_celsius }}℃</font>
+        </p>
+        <p>
+            降水確率
+            <font color="blue">
+              {{ i.chanceOfRain_T00_06 }}
+              {{ i.chanceOfRain_T06_12 }}
+              {{ i.chanceOfRain_T12_18 }}
+              {{ i.chanceOfRain_T18_24 }}
+            </font>
+      </div>
+      {% endfor %}
+      
+    </div>
+  </body>
+</html>
