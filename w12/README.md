@@ -58,7 +58,7 @@ C-x C-f ~/pp2/w12/kp2/json_io.py
 ~/pp2/w12/kp3$ less input/template.html
 ~/pp2/w12/kp3$ ./command.sh 秋田 東京 那覇
 ~/pp2/w12/kp3$ tree output
-~/pp2/w12/kp3$ chromium output/weather/秋田.html output/weather/東京.html output/weather/那覇.html
+~/pp2/w12/kp3$ google-chrome output/weather/秋田.html output/weather/東京.html output/weather/那覇.html
 
 # w12.kp3.2 プログラムの確認
 C-x C-f ~/pp2/w12/kp3/weather_html.py
