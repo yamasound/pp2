@@ -1,22 +1,30 @@
 #!/usr/bin/env python3
+#
+# Googleのスクレイピングが禁止されたので
+# DuckDuckGoのAPIで情報を集める
 
 USAGE = '[USAGE] ./command.sh keyword1 [keyword2 ...]'
 
-import bs4, requests, sys, webbrowser
+from ddgs import DDGS
+import json, sys, webbrowser, time
 
-def get_soup(keywords):
-    res = requests.get(f"https://google.com/search?q={keywords}")
-    res.raise_for_status() # アクセスに失敗したら例外を起こす
-    return bs4.BeautifulSoup(res.text, 'lxml') # 高速なlxmlパーサーを使用
+def search(keywords, limit_pages):
+    return list(DDGS().text(
+        keywords,
+        region='wt-wt',         # リージョン 日本に限定する場合は"jp-jp"
+        safesearch='moderate',  # セーフサーチ on, off, moderate
+        timelimit=None,         # 期間指定 None: 指定なし, d: 過去1日,
+                                #   w: 過去1週間, m: 過去1か月, y: 過去1年
+        max_results=limit_pages # 取得件数
+    ))
 
-def main(argv, limit_pages=5):
-    soup = get_soup(keywords=' '.join(argv[1:]))
-    pages = soup.select('div#main > div > div > div > a')
-    for i in range(min(limit_pages, len(pages))):
-        part_of_url = pages[i].get('href')
-        url = f"https://google.com{part_of_url}"
-        print(url)
-        webbrowser.open(url)
+def main(argv, limit_pages=3):
+    keywords = ' '.join(argv[1:])
+    urls = [s['href'] for s in search(keywords, limit_pages)]
+    browser = webbrowser.get()
+    for url in urls:
+        browser.open(url)
+        time.sleep(1)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
